@@ -1,7 +1,7 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE DataKinds #-}
 
-module Users.UserApi where
+module Users.UserApi (userApi, ApplicationAPI) where
 
 import Servant
 import Errors.Types
@@ -9,12 +9,14 @@ import Data.Validated
 import Users.Types (User, UsersService)
 import qualified Users.Types as UserRepo
 
-type UserAPI = (Capture "id" Int :> Get '[JSON] User
+
+type UserAPI = Capture "id" Int :> Get '[JSON] User
                :<|> ReqBody '[JSON] User :> Post '[JSON] Int
                :<|> Capture "id" Int :> DeleteNoContent '[JSON] NoContent
-               :<|> Get '[JSON] [User])
+               :<|> Get '[JSON] [User]
 
 type ApplicationAPI = "users" :> UserAPI
+
 
 userApi :: (UsersService m, Errors m e) => ServerT UserAPI m
 userApi = findUserById :<|> addNewUser :<|> deleteUser :<|> listAllUsers
