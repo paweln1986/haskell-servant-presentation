@@ -3,3 +3,7 @@ servant-presentation.cabal
 *~
 .idea
 *.iml
+angular-api.js
+api.js
+axios-api.js
+vanillajs-api.js
