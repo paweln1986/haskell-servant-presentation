@@ -8,10 +8,11 @@ import Servant
 import Control.Monad.IO.Class
 import Data.Validated
 import Control.Monad
+import Data.Time
 
 {-# NOINLINE userStorage #-}
 userStorage :: MVar (IntMap.IntMap User)
-userStorage = unsafePerformIO (newMVar IntMap.empty)
+userStorage = unsafePerformIO (newMVar $ IntMap.fromList $ map (\x-> (x, User "testasdasdasdasdad" 10 "aadasdasdasd" $ fromGregorian 1987 12 12)) [1..1000000])
 
 instance UserRepo IO where
   accessData f = (fmap.fmap) f (tryReadMVar userStorage)

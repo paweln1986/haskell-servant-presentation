@@ -8,6 +8,7 @@ import Network.Wai (Middleware)
 import Network.Wai.Metrics (registerWaiMetrics, metrics)
 import System.Metrics (registerGcMetrics, newStore)
 import System.Remote.Monitoring (serverMetricStore, forkServerWith)
+import Network.Wai.Middleware.Gzip
 
 ekg :: Int -> IO Middleware
 ekg port = do
@@ -22,4 +23,4 @@ main = do
   putStrLn "Starting server on port 8081"
   generateJsClients
   waiMetrics <- ekg 8000
-  run 8081 $ waiMetrics $ logStdoutDev application
+  run 8081 $ gzip def { gzipFiles = GzipCompress } $ waiMetrics $ logStdoutDev application
