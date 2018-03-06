@@ -17,13 +17,18 @@ instance ToJSON User
 instance FromJSON User
 instance ToSchema User
 
-type Api = SwaggerSchemaUI "swagger-ui" "swagger.json" :<|> ApplicationAPI
+type Api = SwaggerSchemaUI "swagger-ui" "swagger.json" :<|> ApplicationAPI :<|> Raw
+
+www :: FilePath
+www = "examples/www"
 
 apiImplementation :: Server Api
-apiImplementation = swaggerSchemaUIServer swaggerDoc :<|> userApi
+apiImplementation = swaggerSchemaUIServer swaggerDoc :<|> userApi :<|> serveDirectoryFileServer www
 
 applicationAPI :: Proxy Api
 applicationAPI = Proxy
+
+
 
 application :: Application
 application = serve applicationAPI apiImplementation
