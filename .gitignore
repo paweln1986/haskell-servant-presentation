@@ -1,0 +1,5 @@
+.stack-work/
+servant-presentation.cabal
+*~
+.idea
+*.iml
